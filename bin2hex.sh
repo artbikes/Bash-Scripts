@@ -37,14 +37,14 @@ echodigit(){
 push() 
 {
 # Nothing to push
-if [ -z "$1" ]
-then
-	return
-fi
+	if [ -z "$1" ]
+	then
+		return
+	fi
 
-stack[$CURRENT]=$1
-let CURRENT+=1
-return
+	stack[$CURRENT]=$1
+	let CURRENT+=1
+	return
 }
 
 pop()
@@ -67,8 +67,7 @@ while :
 do
 	if [ "$bin" -le 16 ]
 	then
-		#echodigit $bin
-		push $bin
+		echodigit $bin
 		break
 	fi
 	base=$(($bin/16))
