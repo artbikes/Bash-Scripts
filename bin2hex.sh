@@ -3,6 +3,20 @@
 declare -a stack
 BOTTOM=0
 CURRENT=0
+verbosity=1
+BASE=16
+
+while getopts "b:v" optionName
+do
+	case "$optionName" in
+	b) 	BASE="$OPTARG"
+		shift 1
+		;;
+	v)	verbosity=""
+		shift 1
+		;;
+	esac
+done
 
 echodigit(){
 	case $1 in
@@ -49,7 +63,11 @@ push()
 
 pop()
 {
-	echo -n "HEX: "
+
+	if [ -z "$verbosity" ]
+	then
+		echo -n "HEX: "
+	fi
 	while [ "$CURRENT" -ge "$BOTTOM" ]
 	do
 			data=
@@ -61,19 +79,23 @@ echo
 return
 }
 
-echo "BIN: $1"
+if [ -z "$verbosity" ]
+then
+	echo "Base: $BASE"
+	echo "BIN: $1"
+fi
 bin=$1
 while : 
 do
-	if [ "$bin" -le 16 ]
+	if (( "$bin" < "$BASE" )) 
 	then
 		echodigit $bin
 		break
 	fi
-	base=$(($bin/16))
-	mod=$(($bin%16))
+	root=$(($bin/$BASE))
+	mod=$(($bin%$BASE))
 	echodigit $mod
-	bin=$base
+	bin=$root
 done
 
 pop
