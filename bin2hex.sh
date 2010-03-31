@@ -14,16 +14,14 @@ while getopts "b:vd:" optionName
 do
 	case "$optionName" in
 	b) 	BASE="$OPTARG"
-		shift 1
 		;;
 	v)	verbosity=""
-		shift 1
 		;;
 	d)	ADDRESS=$OPTARG
-		shift 1
 		;;
 	esac
 done
+shift $(($OPTIND - 1))
 
 echodigit(){
 	case $1 in
